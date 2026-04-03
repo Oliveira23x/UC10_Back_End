@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\diego.faoliveira\\Documents\\UC10_Back_End\\Aula 01\\ControleEstoque\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{956F3B2C-3FF0-4CF1-853B-DB9F93E568A9}|ControleEstoque.API\\ControleEstoque.API.csproj|c:\\users\\diego.faoliveira\\documents\\uc10_back_end\\aula 01\\controleestoque\\controleestoque.api\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{956F3B2C-3FF0-4CF1-853B-DB9F93E568A9}|ControleEstoque.API\\ControleEstoque.API.csproj|solutionrelative:controleestoque.api\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Users\\diego.faoliveira\\Documents\\UC10_Back_End\\Aula 01\\ControleEstoque\\ControleEstoque.API\\.gitignore",
+              "RelativeDocumentMoniker": "ControleEstoque.API\\.gitignore",
+              "ToolTip": "C:\\Users\\diego.faoliveira\\Documents\\UC10_Back_End\\Aula 01\\ControleEstoque\\ControleEstoque.API\\.gitignore",
+              "RelativeToolTip": "ControleEstoque.API\\.gitignore",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAAAgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-03T00:13:09.702Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
