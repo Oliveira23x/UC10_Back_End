@@ -9,6 +9,7 @@ namespace ControleEstoque.API.Models
         Gerente,
         Caixa
     }
+
     public abstract class Usuario
     {
         [Key]
@@ -25,31 +26,5 @@ namespace ControleEstoque.API.Models
 
         [Required]
         public PerfilUsuario Perfil { get; set; }
-    }
-    public class Cliente : Usuario
-    {
-        [StringLength(14)]
-        public string CPF { get; set; }
-        
-        
-        // Propriedades específicas para Cliente    
-
-    }
-
-    public class Gerente : Usuario
-    {
-        [StringLength(50)]
-        public string Turno { get; set; }
-
-
-        // Propriedades específicas para Gerente
-    }
-
-    public class Caixa : Usuario
-    {
-        [StringLength(50)]
-        public string Setor { get; set; }
-
-        // Propriedades específicas para Caixa
     }
 }
