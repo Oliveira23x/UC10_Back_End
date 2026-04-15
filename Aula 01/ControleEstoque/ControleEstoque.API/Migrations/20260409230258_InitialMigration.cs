@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace ControleEstoque.API.Migrations
 {
     /// <inheritdoc />
-    public partial class PrimeiraMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -70,15 +71,16 @@ namespace ControleEstoque.API.Migrations
                 name: "Pedidos",
                 columns: table => new
                 {
-                    Quantidade = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    DataPedido = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    CaixaId = table.Column<int>(type: "int", nullable: true),
-                    ClienteId = table.Column<int>(type: "int", nullable: true)
+                    ClienteId = table.Column<int>(type: "int", nullable: false),
+                    CaixaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pedidos", x => x.Quantidade);
+                    table.PrimaryKey("PK_Pedidos", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Pedidos_Usuarios_CaixaId",
                         column: x => x.CaixaId,
@@ -88,7 +90,8 @@ namespace ControleEstoque.API.Migrations
                         name: "FK_Pedidos_Usuarios_ClienteId",
                         column: x => x.ClienteId,
                         principalTable: "Usuarios",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,17 +102,18 @@ namespace ControleEstoque.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Quantidade = table.Column<int>(type: "int", nullable: false),
                     PrecoUnitario = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    PedidoQuantidade = table.Column<int>(type: "int", nullable: true),
-                    ProdutoId = table.Column<int>(type: "int", nullable: true)
+                    ProdutoId = table.Column<int>(type: "int", nullable: true),
+                    PedidoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ItensPedido", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ItensPedido_Pedidos_PedidoQuantidade",
-                        column: x => x.PedidoQuantidade,
+                        name: "FK_ItensPedido_Pedidos_PedidoId",
+                        column: x => x.PedidoId,
                         principalTable: "Pedidos",
-                        principalColumn: "Quantidade");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ItensPedido_Produtos_ProdutoId",
                         column: x => x.ProdutoId,
@@ -118,9 +122,9 @@ namespace ControleEstoque.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItensPedido_PedidoQuantidade",
+                name: "IX_ItensPedido_PedidoId",
                 table: "ItensPedido",
-                column: "PedidoQuantidade");
+                column: "PedidoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItensPedido_ProdutoId",

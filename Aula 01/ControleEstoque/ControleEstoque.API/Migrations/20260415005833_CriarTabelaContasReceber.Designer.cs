@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControleEstoque.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260408004257_segundaMigration")]
-    partial class segundaMigration
+    [Migration("20260415005833_CriarTabelaContasReceber")]
+    partial class CriarTabelaContasReceber
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,48 @@ namespace ControleEstoque.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ControleEstoque.API.Models.ContaReceber", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DataPagamento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataVencimento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("FornecedorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("FornecedorId");
+
+                    b.ToTable("ContasReceber");
+                });
 
             modelBuilder.Entity("ControleEstoque.API.Models.Fornecedor", b =>
                 {
@@ -56,7 +98,7 @@ namespace ControleEstoque.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("PedidoId")
+                    b.Property<int>("PedidoId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("PrecoUnitario")
@@ -88,7 +130,7 @@ namespace ControleEstoque.API.Migrations
                     b.Property<int?>("CaixaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ClienteId")
+                    b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataPedido")
@@ -218,26 +260,57 @@ namespace ControleEstoque.API.Migrations
                     b.HasDiscriminator().HasValue("Gerente");
                 });
 
+            modelBuilder.Entity("ControleEstoque.API.Models.ContaReceber", b =>
+                {
+                    b.HasOne("ControleEstoque.API.Models.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControleEstoque.API.Models.Fornecedor", "Fornecedor")
+                        .WithMany()
+                        .HasForeignKey("FornecedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Fornecedor");
+                });
+
             modelBuilder.Entity("ControleEstoque.API.Models.ItemPedido", b =>
                 {
-                    b.HasOne("ControleEstoque.API.Models.Pedido", null)
+                    b.HasOne("ControleEstoque.API.Models.Pedido", "Pedido")
                         .WithMany("ItensPedido")
-                        .HasForeignKey("PedidoId");
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("ControleEstoque.API.Models.Produto", null)
+                    b.HasOne("ControleEstoque.API.Models.Produto", "Produto")
                         .WithMany("ItensPedido")
                         .HasForeignKey("ProdutoId");
+
+                    b.Navigation("Pedido");
+
+                    b.Navigation("Produto");
                 });
 
             modelBuilder.Entity("ControleEstoque.API.Models.Pedido", b =>
                 {
-                    b.HasOne("ControleEstoque.API.Models.Caixa", null)
+                    b.HasOne("ControleEstoque.API.Models.Caixa", "Caixa")
                         .WithMany("PedidosFechados")
                         .HasForeignKey("CaixaId");
 
-                    b.HasOne("ControleEstoque.API.Models.Cliente", null)
+                    b.HasOne("ControleEstoque.API.Models.Cliente", "Cliente")
                         .WithMany("Pedidos")
-                        .HasForeignKey("ClienteId");
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Caixa");
+
+                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("ControleEstoque.API.Models.Produto", b =>
