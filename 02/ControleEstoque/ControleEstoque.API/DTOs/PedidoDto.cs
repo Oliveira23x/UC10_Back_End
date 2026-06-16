@@ -39,6 +39,7 @@ namespace ControleEstoque.API.DTOs
         public string Status { get; set; } = string.Empty;
         public int? ClienteId { get; set; }
         public decimal Total { get; set; }
+        public int? FormaPagamento { get; set; } 
         public List<ItemPedidoDto> Itens { get; set; } = new();
     }
 }

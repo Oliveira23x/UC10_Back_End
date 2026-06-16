@@ -18,7 +18,6 @@ namespace ControleEstoque.API.Services
         public async Task<IEnumerable<FormaPagamentoDto>> ObterTodosAsync() //
         {
             return await _context.FormasPagamento
-                 .Include(fp => fp.Id)
                  .AsNoTracking()
                  .Select(fp => new FormaPagamentoDto
                  {
@@ -32,7 +31,6 @@ namespace ControleEstoque.API.Services
         public async Task<FormaPagamentoDto?> ObterPorIdAsync(int id)
         {
             var formaPagamento = await _context.FormasPagamento
-                .Include(fp => fp.Id)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(fp => fp.Id == id);
 

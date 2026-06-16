@@ -13,7 +13,7 @@ namespace ControleEstoque.API.Services
             _context = context;
         }
 
-        public async Task<Pedido> CriarPedidoAsync(int clienteId, List<ItemPedido> itens)
+        public async Task<Pedido> CriarPedidoAsync(int clienteId, List<ItemPedido> itens, FormaPagamento formaPagamento)
         {
             foreach (var item in itens)
             {
@@ -29,10 +29,12 @@ namespace ControleEstoque.API.Services
 
             var pedido = new Pedido()
             {
+                //colocar forma de pagamento puxando da dto de pedidos
                 ClienteId = clienteId,
                 DataPedido = DateTime.Now,
                 Status = "Aberto",
-                Itens = itens
+                Itens = itens,
+                FormaPagamento = formaPagamento  
             };
 
             _context.Pedidos.Add(pedido);

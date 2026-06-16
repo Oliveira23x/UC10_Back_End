@@ -51,7 +51,7 @@ namespace ControleEstoque.API.Controllers
                 return CreatedAtAction(nameof(GetById), new { id = formaPagamento.Id }, formaPagamento);
             }
 
-            [HttpPut]
+            [HttpPut("{id}")]
             [Authorize(Roles = "Gerente")]
             public async Task<IActionResult> Atualizar(int id, [FromBody] AtualizarFormaPagamentoDto dto)
             {
