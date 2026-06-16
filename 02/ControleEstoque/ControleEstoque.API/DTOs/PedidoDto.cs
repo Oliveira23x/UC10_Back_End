@@ -7,9 +7,8 @@ namespace ControleEstoque.API.DTOs
         public string Status { get; set; } = string.Empty;
         public int? ClienteId { get; set; }
         public decimal Total => Itens.Sum(i => i.Quantidade * i.PrecoUnitario);
-        public int? FormaPagamentoId { get; set; }
+        public int? FormaPagamento{ get; set; }
         public string Descricao { get; set; } = string.Empty;
-        public decimal ValorTotal { get; set; }
         public List<ItemPedidoDto> Itens { get; set; } = new();
     }
 

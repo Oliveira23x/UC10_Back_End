@@ -1,10 +1,14 @@
-﻿namespace ControleEstoque.API.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ControleEstoque.API.Models
 {
     public class FormaPagamento
     {
+        [Key]
         public int Id { get; set; }
+        [Required, StringLength(50)]
         public string Descricao { get; set; }
         public bool Ativo { get; set; } = true;
-        public Pedido Pedidos { get; set; } = new();
+        public ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
     }
 }

@@ -22,11 +22,14 @@ namespace ControleEstoque.API.Models
         [ForeignKey("Caixa")] // Caixa que fecha o pedido
         public int? CaixaId { get; set; }
         public Caixa Caixa { get; set; }
+        
 
         public ICollection<ItemPedido> Itens { get; set; } = new List<ItemPedido>();     
         
         public FormaPagamento? FormaPagamento { get; set; } // Forma de pagamento escolhida para o pedido
-       
+
+        public string Descricao { get; set; } = string.Empty;
+
 
     }
 }

@@ -2,13 +2,14 @@
 using ControleEstoque.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ControleEstoque.API.Controllers
 {
    
         [ApiController]
         [Route("api/[controller]")]
-        [Authorize (Roles = "Cliente")]
+        [Authorize]
 
         public class FormaPagamentoController : ControllerBase
         {
@@ -31,10 +32,19 @@ namespace ControleEstoque.API.Controllers
             {
                 var formaPagamento = await _formaPagamentoService.ObterPorIdAsync(id);
                 if (formaPagamento == null) return NotFound();
+
+            if (User.FindFirst(ClaimTypes.Role)?.Value == "Gerente") // serve
+            {
+                var pedidos = await _formaPagamentoService.ObterPorIdAsync(id);
+                if (pedidos == null) return NotFound();
+
+            }
+
                 return Ok(formaPagamento);
             }
 
             [HttpPost]
+            [Authorize(Roles = "Gerente")]
             public async Task<IActionResult> Criar([FromBody] CriarFormaPagamentoDto dto)
             {
                 var formaPagamento = await _formaPagamentoService.CriarAsync(dto);
@@ -42,15 +52,17 @@ namespace ControleEstoque.API.Controllers
             }
 
             [HttpPut]
-            public async Task<IActionResult> Atualizar([FromBody] AtualizarFormaPagamentoDto dto)
+            [Authorize(Roles = "Gerente")]
+            public async Task<IActionResult> Atualizar(int id, [FromBody] AtualizarFormaPagamentoDto dto)
             {
-                  if (dto.Id <= 0) return BadRequest("ID inválido para atualização.");
+                if (id != dto.Id) return BadRequest("ID da URL não corresponde ao ID do corpo.");
 
-                  await _formaPagamentoService.AtualizarAsync(dto);
-                  return NoContent();
+                await _formaPagamentoService.AtualizarAsync(dto);
+                return NoContent();
             }
 
             [HttpDelete("{id}")]
+            [Authorize(Roles = "Gerente")]
             public async Task<IActionResult> Remover(int id)
             {
                 await _formaPagamentoService.RemoverAsync(id);
@@ -58,5 +70,5 @@ namespace ControleEstoque.API.Controllers
             }
         }
     }
-}
+
 

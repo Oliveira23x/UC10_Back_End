@@ -29,33 +29,32 @@ namespace ControleEstoque.API.Services
                  .ToListAsync();
         }
 
-        ////public async Task<FormaPagamentoDto?> ObterPorIdAsync(int id)
-        ////{
-        ////    var formaPagamento = await _context.FormasPagamento
-        ////        .Include(fp => fp.Id)
-        ////        .AsNoTracking()
-        ////        .FirstOrDefaultAsync(fp => fp.Id == id);
+        public async Task<FormaPagamentoDto?> ObterPorIdAsync(int id)
+        {
+            var formaPagamento = await _context.FormasPagamento
+                .Include(fp => fp.Id)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(fp => fp.Id == id);
 
-        ////    if (formaPagamento == null) return null;
+            if (formaPagamento == null) return null;
 
-        ////    return new FormaPagamentoDto
-        ////    {
-        ////        Id = formaPagamento.Id,
-        ////        Descricao = formaPagamento.Descricao,
-        ////        Ativo = formaPagamento.Ativo,
-        ////        Pedidos = formaPagamento.Pedidos.Select(p => new PedidoDto
-        ////        {
-        ////            Id = p.Id,
-        ////            Descricao = p.Descricao,
-        ////            ValorTotal = p.ValorTotal,
-        ////            DataPedido = p.DataPedido,
-        ////            Status = p.Status,
-        ////            ClienteId = p.ClienteId
-        ////        }).ToList()
-        ////    };
+            return new FormaPagamentoDto
+            {
+                Id = formaPagamento.Id,
+                Descricao = formaPagamento.Descricao,
+                Ativo = formaPagamento.Ativo,
+                Pedidos = formaPagamento.Pedidos.Select(p => new PedidoDto
+                {
+                    Id = p.Id,
+                    Descricao = p.Descricao,
+                    DataPedido = p.DataPedido,
+                    Status = p.Status,
+                    ClienteId = p.ClienteId
+                }).ToList()
+            };
 
 
-        //}
+        }
 
         public async Task<FormaPagamentoDto> CriarAsync(CriarFormaPagamentoDto dto)
         {
@@ -76,12 +75,12 @@ namespace ControleEstoque.API.Services
             };
         }
 
-        public async Task AtualizarAsync(int id, AtualizarFormaPagamentoDto dto)
+        public async Task AtualizarAsync(AtualizarFormaPagamentoDto dto)
         {
-            var formaPagamento = await _context.FormasPagamento.FindAsync(id);
+            var formaPagamento = await _context.FormasPagamento.FindAsync(dto.Id);
             if (formaPagamento != null)
             {
-                var formaPagamentoExiste = await _context.FormasPagamento.AnyAsync(fp => fp.Id == id);
+                var formaPagamentoExiste = await _context.FormasPagamento.AnyAsync(fp => fp.Id == dto.Id    );
                 if (!formaPagamentoExiste)
                 {
                     throw new ArgumentException("A forma de pagamento informada não existe.");
@@ -96,6 +95,8 @@ namespace ControleEstoque.API.Services
                 await _context.SaveChangesAsync();
             }
         }
+    
+        
 
         public async Task RemoverAsync(int id)
         {
@@ -105,9 +106,7 @@ namespace ControleEstoque.API.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task AtualizarAsync(AtualizarFormaPagamentoDto dto)
-        {
-            throw new NotImplementedException();
-        }
     }
+
+   
 }
