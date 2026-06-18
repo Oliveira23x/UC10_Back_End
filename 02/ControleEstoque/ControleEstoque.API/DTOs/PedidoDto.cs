@@ -1,3 +1,5 @@
+﻿using ControleEstoque.API.Models; // ← adicione este using
+
 namespace ControleEstoque.API.DTOs
 {
     public class PedidoDto
@@ -7,7 +9,7 @@ namespace ControleEstoque.API.DTOs
         public string Status { get; set; } = string.Empty;
         public int? ClienteId { get; set; }
         public decimal Total => Itens.Sum(i => i.Quantidade * i.PrecoUnitario);
-        public int? FormaPagamento{ get; set; }
+        public FormaPagamento FormaPagamento { get; set; }  // ← era int?
         public string Descricao { get; set; } = string.Empty;
         public List<ItemPedidoDto> Itens { get; set; } = new();
     }
@@ -15,6 +17,18 @@ namespace ControleEstoque.API.DTOs
     public class CriarPedidoDto
     {
         public List<CriarItemPedidoDto> Itens { get; set; } = new();
+        public FormaPagamento FormaPagamento { get; set; }  // ← era FormaPagamentoDto
+    }
+
+    public class DetalhesPedidoDto
+    {
+        public int Id { get; set; }
+        public DateTime DataPedido { get; set; }
+        public string Status { get; set; } = string.Empty;
+        public int? ClienteId { get; set; }
+        public decimal Total { get; set; }
+        public FormaPagamento FormaPagamento { get; set; }  // ← era int?
+        public List<ItemPedidoDto> Itens { get; set; } = new();
     }
 
     public class CriarItemPedidoDto
@@ -30,16 +44,5 @@ namespace ControleEstoque.API.DTOs
         public decimal PrecoUnitario { get; set; }
         public int? ProdutoId { get; set; }
         public string ProdutoNome { get; set; } = string.Empty;
-    }
-
-    public class DetalhesPedidoDto
-    {
-        public int Id { get; set; }
-        public DateTime DataPedido { get; set; }
-        public string Status { get; set; } = string.Empty;
-        public int? ClienteId { get; set; }
-        public decimal Total { get; set; }
-        public int? FormaPagamento { get; set; } 
-        public List<ItemPedidoDto> Itens { get; set; } = new();
     }
 }

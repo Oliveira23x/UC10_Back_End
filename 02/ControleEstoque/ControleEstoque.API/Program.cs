@@ -22,6 +22,9 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IContaReceberService, ContaReceberService>();
 builder.Services.AddScoped<IFormaPagamentoService, FormaPagamentoService>();
+builder.Services.AddControllers()
+    .AddJsonOptions(opt =>
+        opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     // encerra o erro de referência cíclica de objetos para o JSON

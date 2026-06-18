@@ -1,4 +1,5 @@
 ﻿using ControleEstoque.API.Models;
+using ControleEstoque.API.DTOs;
 
 namespace ControleEstoque.API.Services
 {
@@ -6,6 +7,7 @@ namespace ControleEstoque.API.Services
     {
         Task<Pedido?> ObterPedidoComDetalhesAsync(int pedidoId);
         Task<IEnumerable<Pedido>> ListarPedidosDoClienteAsync(int clienteId);
-        Task<Pedido> CriarPedidoAsync (int clienteId, List<ItemPedido> itens);
+        Task<Pedido> CriarPedidoAsync (int clienteId, List<ItemPedido> itens, FormaPagamento formaPagamento);
+  
     }
 }

@@ -1,4 +1,5 @@
-﻿﻿using ControleEstoque.API.DTOs;
+﻿using ControleEstoque.API.Data;
+using ControleEstoque.API.DTOs;
 using ControleEstoque.API.Models;
 using ControleEstoque.API.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -15,9 +16,12 @@ namespace ControleEstoque.API.Controllers
     {
         private readonly IPedidoService _pedidoService;
 
+
+
         public PedidosController(IPedidoService pedidoService)
         {
             _pedidoService = pedidoService;
+
         }
 
         // Cliente só pode ver o prórprio pedido
@@ -71,7 +75,7 @@ namespace ControleEstoque.API.Controllers
                     Quantidade = i.Quantidade
                 }).ToList();
 
-                var novoPedido = await _pedidoService.CriarPedidoAsync(clienteId, itensPedido);
+                var novoPedido = await _pedidoService.CriarPedidoAsync(clienteId, itensPedido,pedido.FormaPagamento );
                 
                 return CreatedAtAction(nameof(GetPedido), new { id = novoPedido.Id }, new 
                 { 
